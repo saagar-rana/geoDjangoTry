@@ -10,8 +10,15 @@ def new(request):
 
         new = New(heading=heading, new= new, lat=lat, lon=lng)
         new.save()
+        
+        new = New.objects.all()
+        return render(request,'leaf.html',{'new': new})
 
-        return render(request,'leaf.html')
 
+    
+    new = New.objects.all()
+    return render(request,'leaf.html',{'new': new})
 
-    return render(request,'leaf.html')
+def markers(request):
+    new = New.objects.all()
+    return render(request,'leaf.html',{'new': new})

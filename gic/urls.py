@@ -16,10 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from new.views import new
+from new.views import new,markers
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',new, name='new')
+    path('',new, name='new'),
+    path('markers/',markers, name='markers')
 ]

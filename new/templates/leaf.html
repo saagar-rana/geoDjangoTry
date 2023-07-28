@@ -116,10 +116,19 @@
                   </div>
                   <button type="submit" class="btn btn-primary">Submit</button>
                 </form>`;
-    marker.addTo(map).bindPopup(popup).openPopup();
+    marker.addTo(map).bindPopup(popup);
   }
 
   map.on("click", onMapClick);
+
+    {% for n in new %}
+
+    var lat = {{n.lat}}
+    var lng = {{n.lon}}
+     marker = L.marker([lat,lng]).bindPopup("<h2>{{n.heading}}</h2>"+
+     "<p>{{n.new}}</p>").addTo(map)
+
+    {% endfor %}
 
   var baseMaps = {
     OpenStreetMap: osm,
