@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from .models import New
+from django.contrib.gis.geos import GEOSGeometry
+from django.contrib.gis.measure import *
 
 def new(request):
     if(request.method=="POST"):
@@ -8,11 +10,15 @@ def new(request):
         lat = request.POST.get('lat')
         lng = request.POST.get('lng')
 
-        new = New(heading=heading, new= new, lat=lat, lon=lng)
+        point = GEOSGeometry("POINT("+lat+" "+lng+")", srid=4326)
+
+        new = New(heading=heading, new= new, lat=lat, lon=lng, point=point)
         new.save()
+
         
-        new = New.objects.all()
-        return render(request,'leaf.html',{'new': new})
+        pnt = GEOSGeometry("POINT("+lat+" "+lng+")", srid=4326)
+        some = New.objects.filter(point__distance_lte=(pnt,D(km=7)))
+        return render(request,'leaf.html',{'new':some})
 
 
     
